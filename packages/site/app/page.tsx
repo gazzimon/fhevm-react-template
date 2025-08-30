@@ -1,11 +1,16 @@
-import { FHECounterDemo } from "@/components/FHECounterDemo";
+"use client";
 
-export default function Home() {
+import { useState } from "react";
+import SignInButton from "../components/SignInButton";
+import SignatureCanvas from "../components/SignatureCanvas";
+
+export default function Page() {
+  const [addr, setAddr] = useState<string | null>(null);
+
   return (
-    <main className="">
-      <div className="flex flex-col gap-8 items-center sm:items-start w-full px-3 md:px-0">
-        <FHECounterDemo />
-      </div>
+    <main style={{ display:"flex", flexDirection:"column", alignItems:"center", gap:20, padding:24 }}>
+      <h1 style={{ fontSize:24, fontWeight:700 }}>LIVRA – Sign In + Firma manuscrita</h1>
+      {!addr ? <SignInButton onSignedIn={setAddr} /> : <SignatureCanvas address={addr} />}
     </main>
   );
 }
