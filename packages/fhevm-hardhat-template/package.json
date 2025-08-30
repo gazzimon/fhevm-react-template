@@ -35,12 +35,11 @@
     "typechain": "^8.3.2",
     "typescript": "^5.4.0"
   },
-  "dependencies": {
-    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.0"
-  },
+  "dependencies": {},
   "overrides": {
-    "hardhat": "2.22.1",
+    "hardhat": "2.26.3",
     "hardhat-deploy": "0.11.25",
-    "ethers": "5.7.2"
+    "ethers": "5.8.0"
   }
 }
+
