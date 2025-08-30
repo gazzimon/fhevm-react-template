@@ -1,0 +1,36 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/SignatureRegistry.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract SignatureRegistry {\r\n    struct Signature {\r\n        address signer;      // Dirección de quien firmó\r\n        uint256 timestamp;   // Momento de la firma (block.timestamp)\r\n        string geo;          // Geolocalización (ej: \"lat,long\" o \"Posadas, AR\")\r\n    }\r\n\r\n    struct Document {\r\n        string text;              // Texto o hash del contrato/documento\r\n        address creator;          // Quién lo registró\r\n        Signature[] signatures;   // Firmas asociadas\r\n        mapping(address => bool) signed; // Lookup para evitar doble firma\r\n    }\r\n\r\n    mapping(bytes32 => Document) private documents;\r\n\r\n    event DocumentRegistered(bytes32 indexed docHash, address indexed creator, string text);\r\n    event DocumentSigned(bytes32 indexed docHash, address indexed signer, uint256 timestamp, string geo);\r\n\r\n    /// @notice Registrar un nuevo documento\r\n    /// @param text Texto completo o resumen del documento\r\n    function registerDocument(string memory text) public returns (bytes32) {\r\n        bytes32 docHash = keccak256(abi.encodePacked(text));\r\n        Document storage doc = documents[docHash];\r\n        require(doc.creator == address(0), \"Document already registered\");\r\n\r\n        doc.text = text;\r\n        doc.creator = msg.sender;\r\n\r\n        emit DocumentRegistered(docHash, msg.sender, text);\r\n        return docHash;\r\n    }\r\n\r\n    /// @notice Firmar un documento ya registrado\r\n    /// @param docHash Hash del documento (devuelto al registrarlo)\r\n    /// @param geo Geolocalizacion proporcionada por el front (ej: \"lat,long\")\r\n    function signDocument(bytes32 docHash, string memory geo) public {\r\n        Document storage doc = documents[docHash];\r\n        require(doc.creator != address(0), \"Document not found\");\r\n        require(!doc.signed[msg.sender], \"Already signed\");\r\n\r\n        doc.signatures.push(Signature({\r\n            signer: msg.sender,\r\n            timestamp: block.timestamp,\r\n            geo: geo\r\n        }));\r\n\r\n        doc.signed[msg.sender] = true;\r\n\r\n        emit DocumentSigned(docHash, msg.sender, block.timestamp, geo);\r\n    }\r\n\r\n    /// @notice Obtener el texto y creador de un documento\r\n    function getDocument(bytes32 docHash) public view returns (string memory, address) {\r\n        Document storage doc = documents[docHash];\r\n        require(doc.creator != address(0), \"Document not found\");\r\n        return (doc.text, doc.creator);\r\n    }\r\n\r\n    /// @notice Obtener todas las firmas de un documento\r\n    function getSignatures(bytes32 docHash) public view returns (Signature[] memory) {\r\n        Document storage doc = documents[docHash];\r\n        require(doc.creator != address(0), \"Document not found\");\r\n        return doc.signatures;\r\n    }\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "evmVersion": "paris",
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

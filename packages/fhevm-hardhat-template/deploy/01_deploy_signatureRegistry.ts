@@ -8,7 +8,7 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   await deploy("SignatureRegistry", {
     from: deployer,
-    args: [], // acá agregás parámetros si tu constructor necesita
+    args: [],
     log: true,
   });
 };

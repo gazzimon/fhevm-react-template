@@ -26,7 +26,6 @@
     "@types/mocha": "^10.0.10",
     "chai": "^4.5.0",
     "dotenv": "^16.4.5",
-    "ethers": "^5.8.0",
     "hardhat": "^2.26.3",
     "hardhat-deploy": "0.11.25",
     "hardhat-gas-reporter": "^1.0.10",
@@ -35,11 +34,12 @@
     "typechain": "^8.3.2",
     "typescript": "^5.4.0"
   },
-  "dependencies": {},
   "overrides": {
     "hardhat": "2.26.3",
     "hardhat-deploy": "0.11.25",
     "ethers": "5.8.0"
+  },
+  "dependencies": {
+    "ethers": "^5.8.0"
   }
 }
-
