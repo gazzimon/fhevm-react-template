@@ -1,30 +1,51 @@
-# FHEVM React Template
+# $LIVRA – Linked Identity & Voting for Rights & Autonomy
 
-The FHEVM React Template is an ultra-minimal React project for building and running an FHEVM-enabled dApp.
-It works alongside the [fhevm-hardhat-template](https://github.com/zama-ai/fhevm-hardhat-template)
-and provides a simple development frontend for interacting with the `FHECounter.sol` contract.
+**Tagline:**  
+“Sign in Web3 — trusted by Zama”  
 
-This template also illustrates how to run your FHEVM-dApp on both Sepolia as well as a local Hardhat Node (much faster).
+---
 
-## Features
+## 🎯 The Problem
 
-- **@zama-fhe/relayer-sdk**: Fully Homomorphic Encryption for Ethereum Virtual Machine
-- **React**: Modern UI framework for building interactive interfaces
-- **Next.js**: Next-generation frontend build tool
-- **Tailwind**: Utility-first CSS framework for rapid UI development
+Today we accept contracts and digital permissions that no one fully understands.  
 
-## Requirements
+We upload our ID and biometric data to multiple platforms → leaving them exposed.  
 
-- You need to have Metamask browser extension installed on your browser.
+Digital governance does **not** guarantee:  
+- Informed consent  
+- Unique identity  
+- Privacy in collective decisions  
 
-## Local Hardhat Network (to add in MetaMask)
+👉 Without trust in identity and consent, **digital governance is broken.**
 
-Follow the step-by-step guide in the [Hardhat + MetaMask](https://docs.metamask.io/wallet/how-to/run-devnet/) documentation to set up your local devnet using Hardhat and MetaMask.
+---
 
-- Name: Hardhat
-- RPC URL: http://127.0.0.1:8545
-- Chain ID: 31337
-- Currency symbol: ETH
+## ✅ The Solution – $LIVRA
+
+$LIVRA is an **on-chain digital notary**.  
+
+- Transforms **biometric identity** into a Web3 consent button.  
+- Enables users to **sign, vote, and accept terms** securely, privately, and verifiably.  
+- Powered by **Zama Confidential Smart Contracts** for true privacy.  
+
+---
+
+## ⚙️ How It Works
+
+1. **User** → biometric signature (handwritten on canvas) + wallet.  
+2. A **unique hash** is generated and stored on blockchain.  
+3. A one-click button → “Sign in / Consent” with cryptographic proof.  
+4. Transparent, portable records → usable in DAOs, contracts, or DeFi.
+
+---
+
+## 🛠️ Use Cases – On-Chain Digital Notary
+
+- 📝 **Digital records**: DAO assemblies, board meetings, presidential decrees with timestamp.  
+- 📩 **Electronic notifications**: verifiable proof of sending/receiving (e.g., parcel delivery).  
+- ✍️ **E-signature & contracts**: business agreements, rental for foreign citizens without local ID.  
+- 🔘 **Consent button**: accepting terms, instant loans, inclusion in DeFi.  
+
 
 ## Install
 
