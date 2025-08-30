@@ -7,8 +7,6 @@
 
 ## 🎯 The Problem
 
-Today we accept contracts and digital permissions that no one fully understands.  
-
 We upload our ID and biometric data to multiple platforms → leaving them exposed.  
 
 Digital governance does **not** guarantee:  
