@@ -9,7 +9,12 @@
   "workspaces": [
     "packages/*"
   ],
-  "scripts": {
-    "postinstall": "cd ./packages/site/ && npm run genabi"
-  }
+  "devDependencies": {
+    "hardhat": "^2.22.1",
+    "hardhat-deploy": "^0.11.25"
+  },
+  "description": "The FHEVM React Template is an ultra-minimal React project for building and running an FHEVM-enabled dApp.\r It works alongside the [fhevm-hardhat-template](https://github.com/zama-ai/fhevm-hardhat-template)\r and provides a simple development frontend for interacting with the `FHECounter.sol` contract.",
+  "main": "index.js",
+  "keywords": [],
+  "author": ""
 }

@@ -1,0 +1,37 @@
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { DeployFunction } from "hardhat-deploy/types";
+
+const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+  const { deployments, getNamedAccounts, ethers } = hre;
+  const { deploy, log } = deployments;
+  const { deployer } = await getNamedAccounts();
+
+  log("----------------------------------------------------");
+  log("Deploying Governance setup...");
+
+  // 1. Deploy Token
+  const token = await deploy("MyToken", {
+    from: deployer,
+    args: [deployer],
+    log: true,
+  });
+
+  // 2. Deploy Governor
+  const governor = await deploy("MyGovernor", {
+    from: deployer,
+    args: [token.address],
+    log: true,
+  });
+
+  log(`Token deployed at: ${token.address}`);
+  log(`Governor deployed at: ${governor.address}`);
+
+  // 3. Opcional: delegar votos al deployer
+  const tokenContract = await ethers.getContractAt("MyToken", token.address);
+  await tokenContract.delegate(deployer);
+
+  log("Delegated deployer's votes to itself ✅");
+};
+
+export default func;
+func.tags = ["governance"];
