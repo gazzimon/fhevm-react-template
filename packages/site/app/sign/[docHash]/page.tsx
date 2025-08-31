@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { ethers } from "ethers";
+import SignatureCanvas from "react-signature-canvas";
 import SignatureRegistryABI from "../../../contracts/SignatureRegistry.json";
 
 export default function SignPage({ params }: { params: { docHash: string } }) {
@@ -9,8 +10,9 @@ export default function SignPage({ params }: { params: { docHash: string } }) {
   const [text, setText] = useState<string>("");
   const [signatures, setSignatures] = useState<any[]>([]);
   const [status, setStatus] = useState<string | null>(null);
+  const sigCanvas = useRef<SignatureCanvas>(null);
 
-  // Cargar documento + firmas con provider de solo lectura (RPC local)
+  // Cargar documento + firmas
   const loadData = async () => {
     try {
       const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_RPC_URL);
@@ -35,7 +37,7 @@ export default function SignPage({ params }: { params: { docHash: string } }) {
         setStatus("⚠️ No wallet detected");
         return;
       }
-      // Intentar geolocalización del browser (opcional)
+
       const getGeo = () =>
         new Promise<string>((resolve) => {
           if (!navigator.geolocation) return resolve("");
@@ -68,6 +70,14 @@ export default function SignPage({ params }: { params: { docHash: string } }) {
     }
   };
 
+  const saveHandSignature = () => {
+    if (sigCanvas.current) {
+      const dataUrl = sigCanvas.current.getTrimmedCanvas().toDataURL("image/png");
+      console.log("Firma manuscrita (base64 PNG):", dataUrl);
+      alert("✍️ Firma manuscrita capturada (ver consola)");
+    }
+  };
+
   useEffect(() => {
     loadData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -90,9 +100,44 @@ export default function SignPage({ params }: { params: { docHash: string } }) {
             Sign with LIVRA
           </button>
 
+          {/* Lienzo manuscrito */}
+          <h3 style={{ marginTop:20, fontWeight:600 }}>Optional: Draw your handwritten signature</h3>
+          <div style={{ 
+            border: "2px solid #ccc", 
+            borderRadius: "8px", 
+            width: "100%", 
+            maxWidth: "500px", 
+            height: "200px", 
+            backgroundColor: "#fff" 
+          }}>
+            <SignatureCanvas
+              ref={sigCanvas}
+              penColor="black"
+              canvasProps={{ 
+                width: 500, 
+                height: 200, 
+                style: { borderRadius: "8px", width: "100%", height: "200px" } 
+              }}
+            />
+          </div>
+          <div style={{ display:"flex", gap:8, marginTop:8 }}>
+            <button 
+              onClick={() => sigCanvas.current?.clear()} 
+              style={{ padding:"6px 12px", border:"1px solid #ccc", borderRadius:6 }}
+            >
+              Clear
+            </button>
+            <button 
+              onClick={saveHandSignature} 
+              style={{ padding:"6px 12px", background:"#3b82f6", color:"#fff", borderRadius:6 }}
+            >
+              Save Hand Signature
+            </button>
+          </div>
+
           {status && <p>{status}</p>}
 
-          <h2 style={{ fontWeight:700, marginTop:8 }}>Signatures</h2>
+          <h2 style={{ fontWeight:700, marginTop:8 }}>Signatures (on-chain)</h2>
           <ul style={{ paddingLeft:18, listStyle:"disc" }}>
             {signatures.map((s, i) => (
               <li key={i}>

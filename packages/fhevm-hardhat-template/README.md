@@ -1,57 +1,86 @@
-# Sample Hardhat 3 Beta Project (`mocha` and `ethers`)
+🚀 Getting Started
+1. Clone the repo
+git clone https://github.com/gazzimon/fhevm-react-template.git
+cd fhevm-react-template
 
-This project showcases a Hardhat 3 Beta project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+2. Install dependencies
+pnpm install
 
-To learn more about the Hardhat 3 Beta, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
 
-## Project Overview
+Requires Node.js 18+ and pnpm
 
-This example project includes:
+🛠️ Development Workflow
+Step 1 – Start Hardhat node
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+Open a terminal:
 
-## Usage
+cd packages/fhevm-hardhat-template
+npx hardhat node
 
-### Running Tests
 
-To run all the tests in the project, execute the following command:
+👉 Local blockchain at http://127.0.0.1:8545
+ with test accounts.
 
-```shell
-npx hardhat test
-```
+Step 2 – Deploy contracts
 
-You can also selectively run the Solidity or `mocha` tests:
+In a second terminal:
 
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
-```
+cd packages/fhevm-hardhat-template
+npx hardhat run scripts/deploy.ts --network localhost
 
-### Make a deployment to Sepolia
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+👉 Compiles and deploys contracts. Copy the printed contract address.
 
-To run the deployment to a local chain:
+Step 3 – Run the backend server
 
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
+In a third terminal:
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
+cd server
+node index.js
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+👉 Starts the backend server that interacts with deployed contracts.
 
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
+Step 4 – Run the frontend
 
-After setting the variable, you can run the deployment with the Sepolia network:
+In a fourth terminal:
 
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+cd packages/site
+pnpm dev
+
+
+👉 Starts the Next.js frontend at http://localhost:3000
+.
+👉 Make sure Hardhat node (Step 1) and backend server (Step 3) are running.
+
+⚡ Typical Setup
+
+Terminal 1 → Hardhat node
+
+Terminal 2 → Deploy contracts
+
+Terminal 3 → Backend server (/server/index.js)
+
+Terminal 4 → Frontend (packages/site)
+
+🐞 Troubleshooting
+
+ESM error (Error HH19) → rename hardhat.config.js → hardhat.config.cjs.
+
+MetaMask connection → add custom network:
+
+RPC: http://127.0.0.1:8545
+
+Chain ID: 31337
+
+Ensure Hardhat node is running before deploying or starting server/frontend.
+
+📖 Next Steps
+
+Integrate SignatureRegistry contract with backend.
+
+Expose REST/GraphQL endpoints in /server for signing & verifying.
+
+Connect frontend with backend API.
+
+Extend with Zama confidential contracts for privacy-preserving flows.
