@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { signIn } from "next-auth/react";
-import { BrowserProvider } from "ethers"; // para firmar el nonce
+import { ethers } from "ethers"; // ✅ v5
 
 type Link = { id: string; label: string; url: string };
 type Wallet = { id: string; address: string; kind: string };
@@ -51,7 +51,8 @@ export default function LinksPage() {
 
     try {
       setLinking(true);
-      const provider = new BrowserProvider(ethereum);
+      // ✅ v5
+      const provider = new ethers.providers.Web3Provider(ethereum);
       await ethereum.request({ method: "eth_requestAccounts" });
 
       // 1) pedir nonce
@@ -60,7 +61,7 @@ export default function LinksPage() {
       const { nonce } = await nres.json();
 
       // 2) firmar el mensaje
-      const signer = await provider.getSigner();
+      const signer = provider.getSigner(); // ✅ v5 (sin await)
       const message = `Link wallet to LIVRA\nNonce: ${nonce}`;
       const signature = await signer.signMessage(message);
 
